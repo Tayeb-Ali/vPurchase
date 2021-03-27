@@ -37,10 +37,13 @@ class VerifyCodeController extends Controller
     public function verify(Request $request)
     {
         $verfiy = Verify::where('domain', $request->domain)->first();
-        if (isEmpty($verfiy)) {
-            $save = Verify::created($request->all());
+        if (!$verfiy) {
+            $save = new Verify();
+            $save->fill($request->all());
+            $save->save();
             return $save;
         }
+        return false;
     }
 
     public function bugfix()
