@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Verify;
+use App\Models\WebLog;
 use Illuminate\Http\Request;
 use function PHPUnit\Framework\isEmpty;
 
@@ -41,7 +42,12 @@ class VerifyCodeController extends Controller
             $save = new Verify();
             $save->fill($request->all());
             $save->save();
+            $this->createLog($request);
             return $save;
+        }
+        if ($verfiy) {
+            $this->createLog($request);
+            return $verfiy;
         }
         return false;
     }
@@ -49,5 +55,18 @@ class VerifyCodeController extends Controller
     public function bugfix()
     {
         return null;
+    }
+
+    /**
+     * @param $data
+     * @return WebLog
+     */
+    public function createLog(Request $data)
+    {
+        $log = new WebLog();
+        $log->domain = $data->domain;
+        $log->log_content = json_encode($data->all());
+        $log->save();
+        return $log;
     }
 }

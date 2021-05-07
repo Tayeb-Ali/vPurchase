@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Verifycode extends Migration
+class WebLog extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,15 @@ class Verifycode extends Migration
      */
     public function up()
     {
-        Schema::create('verifycodes', function (Blueprint $table) {
+        Schema::create('web_logs', function (Blueprint $table) {
             $table->id();
-            $table->string('app_id', 191);
-            $table->string('ip', 20);
-            $table->string('code', 191);
-            $table->string('domain', 100)->unique();
-            $table->integer('status')->default(0);
+            $table->string('domain', 191);
+            $table->longText('log_content');
             $table->softDeletes();
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.
